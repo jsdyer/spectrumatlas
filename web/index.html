@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Map Canadian radio authorizations and spectrum site records for British Columbia and Nova Scotia.">
+  <title>Spectrum Atlas · CoolCode</title>
+  <link rel="stylesheet" href="./leaflet.css">
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./leaflet.js"></script>
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <header><nav><a href="https://coolcode.ca/"><strong>&gt;_</strong> CoolCode.ca</a><a href="https://github.com/jsdyer/spectrumatlas">Source ↗</a></nav></header>
+  <main>
+    <section class="hero" aria-labelledby="title">
+      <h1 id="title">Spectrum <span>Atlas</span></h1>
+      <p>Explore ISED’s published radio records by location, licensee, and transmit or receive frequency. The map starts with British Columbia and Nova Scotia.</p>
+      <p class="source" id="source-date">Loading extract dates…</p>
+    </section>
+    <fieldset class="controls" id="controls" disabled>
+      <div class="filters">
+        <label>Province<select id="province"><option value="BC">British Columbia</option><option value="NS">Nova Scotia</option></select></label>
+        <label>Extract<select id="kind"><option value="fixed">Fixed service authorizations</option><option value="terrestrial">Terrestrial spectrum licence sites</option></select></label>
+        <label>Minimum frequency (MHz)<input id="minimum" type="number" step="any" min="0" placeholder="No minimum"></label>
+        <label>Maximum frequency (MHz)<input id="maximum" type="number" step="any" min="0" placeholder="No maximum"></label>
+      </div>
+      <label class="query">Search records<input id="query" type="search" placeholder="Place, licensee, licence number or call sign"></label>
+      <div class="actions">
+        <button type="button" id="export" class="primary" disabled>Export up to 10,000 matches</button>
+        <button type="button" id="reset">Clear filters</button>
+        <label class="toggle"><input id="basemap" type="checkbox" checked> OpenStreetMap background</label>
+      </div>
+    </fieldset>
+    <p class="message" id="message" aria-live="polite">Loading the extract manifest…</p>
+    <div class="workspace">
+      <section class="panel" aria-labelledby="results-label">
+        <div class="panel-head"><h2 id="results-label">Records</h2><span id="count" class="meta"></span></div>
+        <ul id="results" class="results"></ul>
+        <div class="pagination"><button id="previous" type="button" disabled>Previous</button><span id="page"></span><button id="next" type="button" disabled>Next</button></div>
+      </section>
+      <div class="map-pane">
+        <section class="panel" aria-labelledby="map-label">
+          <div class="panel-head"><h2 id="map-label">Map</h2><span id="map-count" class="meta">Zoom to inspect sites</span></div>
+          <div id="map" aria-label="Map of recorded radio sites"></div>
+        </section>
+        <article id="detail" class="panel detail" aria-label="Record details"><p class="muted">Select a result to inspect its frequencies and coordinates.</p></article>
+      </div>
+    </div>
+    <p class="notice">Authorizations and submitted site records describe published technical parameters. Entries may share a site, and coordinates are as reported. This map does not measure reception, coverage, live transmissions, or paths between radios.</p>
+  </main>
+  <footer><a href="https://ised-isde.canada.ca/site/spectrum-management-system/en/spectrum-management-system-data/download-sms-data">ISED Spectrum Management System downloads</a> · <a href="https://ised-isde.canada.ca/site/spectrum-management-system/sites/default/files/attachments/2022/tafl_description_ltaf.pdf">Fixed-service field descriptions</a> · Contains information licensed under the <a href="https://open.canada.ca/en/open-government-licence-canada">Open Government Licence – Canada</a>.</footer>
+</body>
+</html>
