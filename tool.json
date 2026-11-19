@@ -1,0 +1,43 @@
+{
+  "id": "spectrumatlas",
+  "title": "Spectrum Atlas",
+  "description": "Find licensed radio sites and compare frequency assignments across Canada.",
+  "category": "places",
+  "tags": [
+    "ised",
+    "radio",
+    "transmitters",
+    "spectrum",
+    "wireless",
+    "microwave",
+    "bc",
+    "ns"
+  ],
+  "icon": "radio-tower",
+  "url": "/spectrumatlas/",
+  "source": "https://github.com/jsdyer/spectrumatlas",
+  "hosting": "project",
+  "access": "browser",
+  "data_info": {
+    "mode": "snapshot",
+    "detail": "ISED’s two technical extracts cover all ten provinces and three territories. Filter the selected region by frequency, site or distance.",
+    "probes": [
+      {
+        "url": "https://coolcode.ca/spectrumatlas/manifest.json",
+        "path": [
+          "built"
+        ],
+        "label": "Snapshot generated",
+        "count_at": {
+          "path": [
+            "shards"
+          ],
+          "unit": "published spectrum records",
+          "measure": "sum",
+          "field": "count"
+        }
+      }
+    ],
+    "cadence": "Monthly"
+  }
+}
