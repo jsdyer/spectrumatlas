@@ -2,6 +2,10 @@
 
 Browse official Innovation, Science and Economic Development Canada technical spectrum records across all ten Canadian provinces and three territories. Filter a selected extract by site, licensee, call sign or licence number and a TX/RX frequency range. Inspect records on a map and export up to 10,000 matches.
 
+<!-- coolcode:guide -->
+Choose Nunavut and the Iqaluit city preset, then switch from fixed authorizations to terrestrial sites. The radius sorts matches by straight-line distance from the selected centre. Export the matching coordinates and frequencies.
+<!-- /coolcode:guide -->
+
 Find records near a city centre, decimal coordinates or a point picked on the map. The radius search uses straight-line distance between published site coordinates and the search centre, sorts matching records nearest first, and combines with the selected province, extract, text and frequency filters. CSV exports include the search centre, radius and each exported match's distance while the radius filter is active. Selecting a city also selects its province. Proximity calculations run in the browser. The optional OpenStreetMap background requests tiles for the area in view.
 
 ```sh

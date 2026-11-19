@@ -39,6 +39,19 @@ jobs:
           if (( ${#tests[@]} )); then
             node --test "${tests[@]}"
           fi
+      - name: Check the regional explorer in Chromium
+        run: |
+          python3 -m venv "$RUNNER_TEMP/region-check"
+          . "$RUNNER_TEMP/region-check/bin/activate"
+          python -m pip install playwright==1.62.0
+          python -m playwright install --with-deps chromium
+          python tests/regional_browser.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: regional-browser-checks
+          path: browser-checks/
+          retention-days: 7
       - uses: actions/upload-pages-artifact@v4
         with:
           path: dist
