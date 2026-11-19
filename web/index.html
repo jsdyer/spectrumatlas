@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Map Canadian radio authorizations and spectrum site records for British Columbia and Nova Scotia.">
+  <meta name="description" content="Map Canadian radio authorizations and spectrum site records across Canada.">
   <title>Spectrum Atlas · CoolCode</title>
   <link rel="stylesheet" href="./leaflet.css">
   <link rel="stylesheet" href="./style.css">
@@ -15,12 +15,12 @@
   <main>
     <section class="hero" aria-labelledby="title">
       <h1 id="title">Spectrum <span>Atlas</span></h1>
-      <p>Explore ISED’s published radio records by location, licensee, and transmit or receive frequency. The map starts with British Columbia and Nova Scotia.</p>
+      <p>Explore ISED’s published radio records by location, licensee, and transmit or receive frequency. Choose any of Canada’s ten provinces or three territories.</p>
       <p class="source" id="source-date">Loading extract dates…</p>
     </section>
     <fieldset class="controls" id="controls" disabled>
       <div class="filters">
-        <label>Province<select id="province"><option value="BC">British Columbia</option><option value="NS">Nova Scotia</option></select></label>
+        <label>Province or territory<select id="province"><option value="AB">Alberta</option><option value="BC" selected>British Columbia</option><option value="MB">Manitoba</option><option value="NB">New Brunswick</option><option value="NL">Newfoundland and Labrador</option><option value="NS">Nova Scotia</option><option value="NT">Northwest Territories</option><option value="NU">Nunavut</option><option value="ON">Ontario</option><option value="PE">Prince Edward Island</option><option value="QC">Quebec</option><option value="SK">Saskatchewan</option><option value="YT">Yukon</option></select></label>
         <label>Extract<select id="kind"><option value="fixed">Fixed service authorizations</option><option value="terrestrial">Terrestrial spectrum licence sites</option></select></label>
         <label>Minimum frequency (MHz)<input id="minimum" type="number" step="any" min="0" placeholder="No minimum"></label>
         <label>Maximum frequency (MHz)<input id="maximum" type="number" step="any" min="0" placeholder="No maximum"></label>
@@ -31,7 +31,7 @@
         <div class="filters nearby-fields">
           <label>Latitude, longitude<input id="nearby-coordinates" type="text" maxlength="80" spellcheck="false" placeholder="49.2827, -123.1207" aria-describedby="nearby-status"></label>
           <label>Radius (km)<input id="nearby-radius" type="number" min="0.1" max="1000" step="any" value="25"></label>
-          <label>City centre<select id="nearby-city"><option value="">Choose a preset</option><optgroup label="British Columbia"><option value="vancouver">Vancouver</option><option value="langley">Langley</option><option value="victoria">Victoria</option><option value="kelowna">Kelowna</option></optgroup><optgroup label="Nova Scotia"><option value="halifax">Halifax</option><option value="sydney">Sydney</option><option value="yarmouth">Yarmouth</option></optgroup></select></label>
+          <label>City centre<select id="nearby-city"><option value="">Choose a preset</option><optgroup label="Alberta"><option value="ab">Edmonton</option></optgroup><optgroup label="Manitoba"><option value="mb">Winnipeg</option></optgroup><optgroup label="New Brunswick"><option value="nb">Fredericton</option></optgroup><optgroup label="Newfoundland and Labrador"><option value="nl">St. John’s</option></optgroup><optgroup label="Northwest Territories"><option value="nt">Yellowknife</option></optgroup><optgroup label="Nunavut"><option value="nu">Iqaluit</option></optgroup><optgroup label="Ontario"><option value="on">Toronto</option></optgroup><optgroup label="Prince Edward Island"><option value="pe">Charlottetown</option></optgroup><optgroup label="Quebec"><option value="qc">Montréal</option></optgroup><optgroup label="Saskatchewan"><option value="sk">Regina</option></optgroup><optgroup label="Yukon"><option value="yt">Whitehorse</option></optgroup><optgroup label="British Columbia"><option value="vancouver">Vancouver</option><option value="langley">Langley</option><option value="victoria">Victoria</option><option value="kelowna">Kelowna</option></optgroup><optgroup label="Nova Scotia"><option value="halifax">Halifax</option><option value="sydney">Sydney</option><option value="yarmouth">Yarmouth</option></optgroup></select></label>
         </div>
         <div class="actions"><button type="submit">Search within radius</button><button type="button" id="nearby-clear" disabled>Clear nearby search</button></div>
         <p id="nearby-status" class="meta" role="status">Enter coordinates, choose a city or pick a centre on the map.</p>

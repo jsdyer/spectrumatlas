@@ -11,8 +11,33 @@ const number = value => value.toLocaleString('en-CA');
 const kilometres = value => `${value.toLocaleString('en-CA', {maximumFractionDigits: 2})} km`;
 const perPage = 20;
 const mapLimit = 600;
-const regionalView = { BC: [[53.5, -124.2], 5], NS: [[45.0, -63.5], 7] };
+const regionalView = {
+  AB: [[54.5, -114.8], 5],
+  BC: [[53.5, -124.2], 5],
+  MB: [[54.5, -98.5], 5],
+  NB: [[46.6, -66.6], 7],
+  NL: [[53, -59], 5],
+  NS: [[45, -63.5], 7],
+  NT: [[65, -119], 4],
+  NU: [[68, -92], 3],
+  ON: [[50, -84], 5],
+  PE: [[46.35, -63.3], 8],
+  QC: [[52, -71], 5],
+  SK: [[54, -106], 5],
+  YT: [[64, -135], 5],
+};
 const cities = {
+  ab: ['AB', 53.55, -113.49],
+  mb: ['MB', 49.9, -97.14],
+  nb: ['NB', 45.96, -66.64],
+  nl: ['NL', 47.56, -52.71],
+  nt: ['NT', 62.45, -114.37],
+  nu: ['NU', 63.75, -68.52],
+  on: ['ON', 43.65, -79.38],
+  pe: ['PE', 46.24, -63.13],
+  qc: ['QC', 45.5, -73.57],
+  sk: ['SK', 50.45, -104.62],
+  yt: ['YT', 60.72, -135.05],
   vancouver: ['BC', 49.2827, -123.1207], langley: ['BC', 49.1044, -122.6600],
   victoria: ['BC', 48.4284, -123.3656], kelowna: ['BC', 49.8880, -119.4960],
   halifax: ['NS', 44.6488, -63.5752], sydney: ['NS', 46.1368, -60.1942],
@@ -290,7 +315,7 @@ get('basemap').addEventListener('change', event => {
   else map.removeLayer(tiles);
 });
 get('province').addEventListener('change', event => {
-  if (cities[get('nearby-city').value]?.[0] !== event.target.value) get('nearby-city').value = '';
+  clearNearby();
   load();
 });
 get('kind').addEventListener('change', load);

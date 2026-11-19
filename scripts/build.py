@@ -20,7 +20,7 @@ EXTRACTS = {'fixed': 'TAFL_LTAF_Fixe.zip', 'terrestrial': 'Site_Data_Extract_FX.
 LEAFLET = 'https://registry.npmjs.org/leaflet/-/leaflet-1.9.4.tgz'
 # Registry SHA-512 integrity for Leaflet 1.9.4.
 LEAFLET_SHA512 = 'sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA=='
-PROVINCES = ('BC', 'NS')
+PROVINCES = ('AB', 'BC', 'MB', 'NB', 'NL', 'NS', 'NT', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT')
 SITE_FIELDS = ('province_code', 'latitude', 'longitude', 'tx_frequency', 'rx_frequency',
                'licence_category*', 'technology', 'location', 'licensee_name*',
                'licence_number', 'record_id', 'date_last_changed', 'station_type')
@@ -82,7 +82,7 @@ def compact(row, kind, fields):
         status = STATUS.get(raw_status, raw_status)
         data = (get('location'), get('holder'), get('authorization'), get('record'),
                 get('class'), get('callsign'), status, get('date'))
-    if lat is None or lng is None or not (40 <= lat <= 65 and -145 <= lng <= -50):
+    if lat is None or lng is None or not (40 <= lat <= 84 and -142 <= lng <= -50):
         return None
     tx = round(tx, 6) if tx is not None and tx > 0 else None
     rx = round(rx, 6) if rx is not None and rx > 0 else None
@@ -90,7 +90,8 @@ def compact(row, kind, fields):
 
 
 def prepare(kind, path, output):
-    data = {key: [] for key in PROVINCES}
+    counts = dict.fromkeys(PROVINCES, 0)
+    streams = {key: tempfile.TemporaryFile(mode='w+', encoding='utf-8') for key in PROVINCES}
     dictionaries = {key: {'': 0} for key in PROVINCES}
     malformed = 0
     with zipfile.ZipFile(path) as archive:
@@ -124,17 +125,25 @@ def prepare(kind, path, output):
                 province, values = parsed
                 table = dictionaries[province]
                 indexes = [table.setdefault(value, len(table)) for value in values[4:]]
-                data[province].append((*values[:4], *indexes))
+                if counts[province]:
+                    streams[province].write(',')
+                streams[province].write(json.dumps((*values[:4], *indexes), separators=(',', ':')))
+                counts[province] += 1
     if malformed:
         print(f'{kind}: skipped {malformed:,} records that did not match the documented width')
     shards = []
     for province in PROVINCES:
-        if not data[province]:
+        if not counts[province]:
             raise ValueError(f'No {kind} records mapped in {province}')
         filename = f'{kind}-{province.lower()}.json'
-        stats = {'kind': kind, 'province': province, 'file': filename, 'count': len(data[province]), 'extractDate': extract_date}
-        result = {'index': list(dictionaries[province]), 'rows': data[province]}
-        (output / filename).write_text(json.dumps(result, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
+        stats = {'kind': kind, 'province': province, 'file': filename, 'count': counts[province], 'extractDate': extract_date}
+        with streams[province] as spool, (output / filename).open('w', encoding='utf-8') as target:
+            target.write('{"index":')
+            json.dump(list(dictionaries.pop(province)), target, ensure_ascii=False, separators=(',', ':'))
+            target.write(',"rows":[')
+            spool.seek(0)
+            shutil.copyfileobj(spool, target)
+            target.write(']}')
         shards.append(stats)
         print(f'{filename}: {stats["count"]:,} rows · {((output / filename).stat().st_size / 1048576):.1f} MiB')
     return shards
